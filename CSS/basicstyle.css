@@ -1,0 +1,778 @@
+/* =======================
+   1. CSS Variables (Light & Dark)
+   ======================= */
+:root {
+    --bg-color: #f8faff;
+    --text-color: #333;
+    --header-bg-start: #3b82f6;
+    --header-bg-end: #93c5fd;
+    --nav-bg: #fff;
+    --nav-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --nav-text: #4b5563;
+    --nav-hover-text: #2563eb;
+    --primary-button-bg: #2563eb;
+    --primary-button-hover-bg: #1d4ed8;
+    --secondary-button-border: #d1d5db;
+    --secondary-button-text: #374151;
+    --secondary-button-hover-bg: #f9fafb;
+    --hero-text: #fff;
+    --hero-button-bg: #fff;
+    --hero-button-text: #1d4ed8;
+    --hero-button-hover-bg: #eff6ff;
+    --section-bg: #fff;
+    --section-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    --section-heading: #1e40af;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --card-hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --card-bg-blue: #eff6ff;
+    --card-bg-green: #f0fdf4;
+    --card-bg-purple: #faf5ff;
+    --card-heading-blue: #1e40af;
+    --card-heading-green: #14532d;
+    --card-heading-purple: #5b21b6;
+    --card-icon-blue: #2563eb;
+    --card-icon-green: #16a34a;
+    --card-icon-purple: #7c3aed;
+    --card-text: #4b5563;
+    --cta-bg: #1d4ed8;
+    --cta-text: #fff;
+    --footer-bg: #111827;
+    --footer-heading: #fff;
+    --footer-text: #d1d5db;
+    --footer-link: #9ca3af;
+    --footer-link-hover: #fff;
+    --footer-border-color: #374151;
+
+    /* Content/Policy/Help/FAQ/About/Careers/Blog Variables */
+    --content-heading-color: #1e40af;
+    --content-subheading-color: #2563eb;
+    --content-link-color: #2563eb;
+    --content-link-hover-color: #1d4ed8;
+    --content-border-color: #e5e7eb;
+
+    /* Specific overrides for pages like Privacy Policy etc. for unique elements */
+    --policy-heading-color: #60a5fa; /* Example for a specific page header, though content-heading-color is often sufficient */
+    --policy-subheading-color: #93c5fd;
+    --policy-link-color: #60a5fa;
+    --policy-link-hover-color: #93c5fd;
+    --policy-border-color: #374151;
+
+    /* Contact specific colors */
+    --contact-card-bg: #f3f4f6;
+    --contact-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --contact-card-hover-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    --contact-icon-color: #4f46e5;
+
+    /* Blog post card colors */
+    --blog-card-bg: #f9fafb;
+    --blog-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    --blog-card-hover-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+    --blog-meta-color: #6b7280;
+
+    /* Careers specific colors */
+    --career-card-bg: #f9fafb;
+    --career-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    --career-card-hover-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+    --career-category-color: #4b5563;
+    --notice-bg-light: #fff3cd; /* Light yellow for notice */
+    --notice-text-light: #664d03; /* Dark yellow text */
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #111827;
+    --text-color: #d1d5db;
+    --header-bg-start: #1f2937;
+    --header-bg-end: #374151;
+    --nav-bg: #1f2937;
+    --nav-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --nav-text: #d1d5db;
+    --nav-hover-text: #60a5fa;
+    --primary-button-bg: #3b82f6;
+    --primary-button-hover-bg: #2563eb;
+    --secondary-button-border: #4b5563;
+    --secondary-button-text: #d1d5db;
+    --secondary-button-hover-bg: #374151;
+    --section-bg: #1f2937;
+    --section-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    --section-heading: #60a5fa;
+    --card-bg-blue: #374151;
+    --card-bg-green: #16221c;
+    --card-bg-purple: #2c213d;
+    --card-heading-blue: #93c5fd;
+    --card-heading-green: #86efac;
+    --card-heading-purple: #c4b5fd;
+    --card-icon-blue: #60a5fa;
+    --card-icon-green: #4ade80;
+    --card-icon-purple: #a78bfa;
+    --card-text: #9ca3af;
+    --cta-bg: #3b82f6;
+    --cta-text: #fff;
+    --footer-bg: #000;
+    --footer-heading: #e5e7eb;
+    --footer-text: #9ca3af;
+    --footer-link: #6b7280;
+    --footer-link-hover: #e5e7eb;
+    --footer-border-color: #4b5563;
+
+    /* Content/Policy/Help/FAQ/About/Careers/Blog Variables (Dark) */
+    --content-heading-color: #60a5fa;
+    --content-subheading-color: #93c5fd;
+    --content-link-color: #60a5fa;
+    --content-link-hover-color: #93c5fd;
+    --content-border-color: #374151;
+
+    /* Specific overrides for pages like Privacy Policy etc. for unique elements (Dark Mode) */
+    --policy-heading-color: #60a5fa;
+    --policy-subheading-color: #93c5fd;
+    --policy-link-color: #60a5fa;
+    --policy-link-hover-color: #93c5fd;
+    --policy-border-color: #374151;
+
+    /* Contact specific colors (Dark Mode) */
+    --contact-card-bg: #2d3748;
+    --contact-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --contact-card-hover-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    --contact-icon-color: #818cf8;
+
+    /* Blog post card colors (Dark Mode) */
+    --blog-card-bg: #2d3748;
+    --blog-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --blog-card-hover-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    --blog-meta-color: #a0aec0;
+
+    /* Careers specific colors (Dark Mode) */
+    --career-card-bg: #2d3748;
+    --career-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --career-card-hover-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    --career-category-color: #a0aec0;
+    --notice-bg-dark: #3e3300;
+    --notice-text-dark: #ffe066;
+}
+
+/* =======================
+   2. Global Styles
+   ======================= */
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+@media (max-width: 1000px) {
+    .container { max-width: 900px; }
+}
+
+/* =======================
+   3. Navigation Bar
+   ======================= */
+.navbar {
+    background-color: var(--nav-bg);
+    box-shadow: var(--nav-shadow);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0.5rem;
+    z-index: 50;
+    border-radius: 0.75rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+.navbar-content { display: flex; justify-content: space-between; align-items: center; }
+.navbar-brand { font-size: 2.25rem; font-weight: 800; color: var(--section-heading); letter-spacing: -0.05em; text-decoration: none; }
+.navbar-links { display: flex; align-items: center; gap: 0.5rem; }
+.navbar-links a { color: var(--nav-text); text-decoration: none; font-weight: 500; transition: color 0.3s ease; margin-left: 1rem; }
+.navbar-links a:hover { color: var(--nav-hover-text); }
+.navbar-links .btn { font-weight: 600; padding: 0.5rem 1.25rem; border-radius: 9999px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); transform: scale(1); transition: all 0.3s ease; text-decoration: none; display: inline-block; }
+.navbar-links .btn-primary { background-color: var(--primary-button-bg); color: #fff; border: 1px solid transparent; }
+.navbar-links .btn-primary:hover { background-color: var(--primary-button-hover-bg); transform: scale(1.05); }
+.navbar-links .btn-secondary { border: 1px solid var(--secondary-button-border); color: var(--secondary-button-text); background-color: transparent; }
+.navbar-links .btn-secondary:hover { background-color: var(--secondary-button-hover-bg); }
+.dark-mode-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--nav-text); margin-left: 1rem; transition: color 0.3s ease; line-height: 1; }
+.dark-mode-toggle:hover { color: var(--nav-hover-text); }
+
+/* =======================
+   4. Hero Section (Home)
+   ======================= */
+.hero-section {
+    background-image: linear-gradient(to right bottom, var(--header-bg-start), var(--header-bg-end));
+    color: var(--hero-text);
+    padding: 5rem 0 8rem 0;
+    border-radius: 2rem;
+    box-shadow: var(--section-shadow);
+    max-width: 1200px;
+    margin: 1rem auto 0 auto;
+    text-align: center;
+}
+.hero-section h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
+.hero-section p { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9; max-width: 700px; margin-left: auto; margin-right: auto; }
+.hero-section .hero-btn { background-color: var(--hero-button-bg); color: var(--hero-button-text); font-weight: 700; padding: 0.75rem 2rem; border-radius: 9999px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-size: 1.125rem; transform: scale(1); transition: all 0.3s ease; text-decoration: none; }
+.hero-section .hero-btn:hover { transform: scale(1.05); background-color: var(--hero-button-hover-bg); }
+
+/* =======================
+   5. Main Content & Sections (for index.html)
+   ======================= */
+.main-content { padding-top: 2rem; }
+.page-section { background-color: var(--section-bg); padding: 4rem 1.5rem; border-radius: 1.5rem; box-shadow: var(--section-shadow); max-width: 1200px; margin: 2rem auto; text-align: center; }
+.page-section h2 { font-size: 2.5rem; font-weight: 800; color: var(--section-heading); margin-bottom: 3rem; }
+.page-section p { color: var(--card-text); line-height: 1.625; font-size: 1.125rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+.page-section p + p { margin-top: 1rem; }
+
+/* =======================
+   6. Feature Cards (Home)
+   ======================= */
+.feature-cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 768px) { .feature-cards { grid-template-columns: repeat(3, 1fr); } }
+.feature-card { padding: 2rem; border-radius: 1rem; box-shadow: var(--card-shadow); transition: all 0.3s ease; transform: translateY(0); }
+.feature-card:hover { box-shadow: var(--card-hover-shadow); transform: translateY(-0.5rem); }
+.feature-card .icon-container { margin-bottom: 1.25rem; display: flex; justify-content: center; }
+.feature-card svg { width: 3rem; height: 3rem; }
+.feature-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+.feature-card p { color: var(--card-text); line-height: 1.625; }
+.feature-card.blue-bg { background-color: var(--card-bg-blue); }
+.feature-card.blue-bg h3 { color: var(--card-heading-blue); }
+.feature-card.blue-bg svg { color: var(--card-icon-blue); }
+.feature-card.green-bg { background-color: var(--card-bg-green); }
+.feature-card.green-bg h3 { color: var(--card-heading-green); }
+.feature-card.green-bg svg { color: var(--card-icon-green); }
+.feature-card.purple-bg { background-color: var(--card-bg-purple); }
+.feature-card.purple-bg h3 { color: var(--card-heading-purple); }
+.feature-card.purple-bg svg { color: var(--card-icon-purple); }
+.font-semibold { font-weight: 600; }
+/* This specific color was for about.html in the original context, using direct hex for stability */
+.font-semibold.text-purple-700 { color: #6b21a8; }
+body.dark-mode .font-semibold.text-purple-700 { color: #a78bfa; }
+
+
+/* =======================
+   7. CTA Section (Home)
+   ======================= */
+.cta-section { background-color: var(--cta-bg); color: var(--cta-text); padding: 4rem 1.5rem; max-width: 1200px; margin: 2rem auto; border-radius: 1.5rem; text-align: center; }
+.cta-section h2 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1rem; }
+.cta-section p { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9; }
+.cta-section .cta-btn { background-color: var(--hero-button-bg); color: var(--hero-button-text); font-weight: 700; padding: 0.75rem 2rem; border-radius: 9999px; font-size: 1.125rem; text-decoration: none; transition: all 0.3s ease; }
+.cta-section .cta-btn:hover { transform: scale(1.05); background-color: var(--hero-button-hover-bg); }
+
+/* =======================
+   8. Shared Content Styles (for all inner pages: Help, FAQ, About, Policy, Terms, Contact, Blog, Careers)
+   ======================= */
+.help-center-content,
+.faq-content,
+.about-content,
+.policy-content,
+.contact-content,
+.blog-content,
+.careers-content {
+    background-color: var(--section-bg);
+    padding: 3rem 2rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--section-shadow);
+    max-width: 900px; /* Specific width for inner content pages */
+    margin: 2rem auto;
+    line-height: 1.8;
+    text-align: left;
+}
+.help-center-content h1,
+.faq-content h1,
+.about-content h1,
+.policy-content h1,
+.contact-content h1,
+.blog-content h1,
+.careers-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--content-heading-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.help-center-content h2,
+.faq-content h2,
+.about-content h2,
+.policy-content h2,
+.contact-content h2,
+.blog-content h2,
+.careers-content h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--content-subheading-color);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--content-border-color);
+    padding-bottom: 0.5rem;
+}
+.help-center-content h3,
+.faq-content h3,
+.about-content h3,
+.policy-content h3,
+.contact-content h3,
+.blog-content h3,
+.careers-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--content-subheading-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+.help-center-content p,
+.faq-content p,
+.about-content p,
+.policy-content p,
+.contact-content p,
+.blog-content p,
+.careers-content p {
+    margin-bottom: 1rem;
+}
+.help-center-content ul,
+.faq-content ul,
+.about-content ul,
+.policy-content ul,
+.contact-content ul,
+.blog-content ul,
+.careers-content ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.help-center-content ol,
+.faq-content ol,
+.about-content ol,
+.policy-content ol,
+.contact-content ol,
+.blog-content ol,
+.careers-content ol {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.help-center-content li,
+.faq-content li,
+.about-content li,
+.policy-content li,
+.contact-content li,
+.blog-content li,
+.careers-content li {
+    margin-bottom: 0.5rem;
+}
+.help-center-content a,
+.faq-content a,
+.about-content a,
+.policy-content a,
+.contact-content a,
+.blog-content a,
+.careers-content a {
+    color: var(--content-link-color);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+.help-center-content a:hover,
+.faq-content a:hover,
+.about-content a:hover,
+.policy-content a:hover,
+.contact-content a:hover,
+.blog-content a:hover,
+.careers-content a:hover {
+    color: var(--content-link-hover-color);
+}
+.help-center-content strong,
+.faq-content strong,
+.about-content strong,
+.policy-content strong,
+.contact-content strong,
+.blog-content strong,
+.careers-content strong {
+    font-weight: 700;
+}
+.help-center-content em,
+.faq-content em,
+.about-content em,
+.policy-content em,
+.contact-content em,
+.blog-content em,
+.careers-content em {
+    font-style: italic;
+}
+
+
+/* =======================
+   9. Help Center Specific
+   ======================= */
+.help-center-content .contact-section-help {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--content-border-color);
+}
+.help-center-content .contact-section-help .contact-btn {
+    background-color: var(--primary-button-bg);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.125rem;
+    transform: scale(1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+.help-center-content .contact-section-help .contact-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--primary-button-hover-bg);
+}
+
+/* =======================
+   10. Contact Page Specific
+   ======================= */
+.contact-methods {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+@media (min-width: 768px) {
+    .contact-methods {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.contact-card {
+    background-color: var(--contact-card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--contact-card-shadow);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.contact-card:hover {
+    box-shadow: var(--contact-card-hover-shadow);
+    transform: translateY(-0.25rem);
+}
+.contact-card .icon-circle {
+    background-color: var(--primary-button-bg);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.contact-card .icon-circle svg {
+    width: 32px;
+    height: 32px;
+    color: #fff;
+}
+.contact-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--content-subheading-color);
+    margin-bottom: 0.75rem;
+}
+.contact-card p {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+.contact-card .btn {
+    background-color: var(--primary-button-bg);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+.contact-card .btn:hover {
+    background-color: var(--primary-button-hover-bg);
+    transform: scale(1.05);
+}
+.contact-card .btn.disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+body.dark-mode .contact-card .btn.disabled {
+    background-color: #4b5563;
+}
+
+/* =======================
+   11. Blog Specific
+   ======================= */
+.blog-posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+@media (min-width: 768px) {
+    .blog-posts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+.blog-post-card {
+    background-color: var(--blog-card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: var(--blog-card-shadow);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.blog-post-card:hover {
+    box-shadow: var(--blog-card-hover-shadow);
+    transform: translateY(-0.25rem);
+}
+.blog-post-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--content-subheading-color);
+    margin-bottom: 0.5rem;
+}
+.blog-post-card .blog-meta {
+    font-size: 0.9rem;
+    color: var(--blog-meta-color);
+    margin-bottom: 1rem;
+}
+.blog-post-card p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+.blog-post-card .read-more-btn {
+    background-color: var(--primary-button-bg);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    align-self: flex-start;
+}
+.blog-post-card .read-more-btn:hover {
+    background-color: var(--primary-button-hover-bg);
+    transform: scale(1.05);
+}
+
+/* =======================
+   12. Careers Page Specific
+   ======================= */
+.job-openings-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+@media (min-width: 600px) {
+    .job-openings-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+.job-card {
+    background-color: var(--career-card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: var(--career-card-shadow);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.job-card:hover {
+    box-shadow: var(--career-card-hover-shadow);
+    transform: translateY(-0.25rem);
+}
+.job-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--content-subheading-color);
+    margin-bottom: 0.5rem;
+}
+.job-card .job-meta {
+    font-size: 0.9rem;
+    color: var(--career-category-color);
+    margin-bottom: 1rem;
+}
+.job-card p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+.job-card .apply-btn {
+    background-color: var(--primary-button-bg);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    align-self: flex-start;
+}
+.job-card .apply-btn:hover {
+    background-color: var(--primary-button-hover-bg);
+    transform: scale(1.05);
+}
+.careers-content .cta-apply {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--content-border-color);
+}
+.careers-content .cta-apply .apply-now-btn {
+    background-color: var(--primary-button-bg);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.125rem;
+    transform: scale(1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+.careers-content .cta-apply .apply-now-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--primary-button-hover-bg);
+}
+.no-openings-notice {
+    background-color: var(--notice-bg-light);
+    color: var(--notice-text-light);
+    border-left: 5px solid #ffc107; /* Orange */
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+body.dark-mode .no-openings-notice {
+    background-color: var(--notice-bg-dark);
+    color: var(--notice-text-dark);
+    border-left-color: #e6b300;
+}
+
+
+/* =======================
+   13. Footer (All Pages)
+   ======================= */
+.main-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding-top: 4rem;
+    margin-top: 2rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    text-align: left;
+}
+.footer-grid h4 {
+    color: var(--footer-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.footer-grid ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-grid ul li {
+    margin-bottom: 0.75rem;
+}
+.footer-grid ul a {
+    color: var(--footer-link);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-grid ul a:hover {
+    color: var(--footer-link-hover);
+}
+.footer-bottom {
+    text-align: center;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--footer-border-color);
+    font-size: 0.9rem;
+    color: var(--footer-link);
+}
+
+/* =======================
+   14. Responsive Styles (General)
+   ======================= */
+@media (max-width: 767px) {
+    .navbar-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .navbar-links {
+        display: none; /* Can be replaced with a hamburger menu later */
+    }
+    .hero-section h1,
+    .help-center-content h1,
+    .faq-content h1,
+    .about-content h1,
+    .policy-content h1,
+    .contact-content h1,
+    .blog-content h1,
+    .careers-content h1 { font-size: 2rem; }
+    .hero-section p { font-size: 1rem; } /* Specific for hero on mobile */
+    .help-center-content h2,
+    .faq-content h2,
+    .about-content h2,
+    .policy-content h2,
+    .contact-content h2,
+    .blog-content h2,
+    .careers-content h2 { font-size: 1.5rem; }
+    .help-center-content h3,
+    .faq-content h3,
+    .about-content h3,
+    .policy-content h3,
+    .contact-content h3,
+    .blog-content h3,
+    .careers-content h3 { font-size: 1.1rem; }
+    .help-center-content,
+    .faq-content,
+    .about-content,
+    .policy-content,
+    .contact-content,
+    .blog-content,
+    .careers-content { padding: 2rem 1rem; }
+    .footer-grid { text-align: center; }
+}
+
+/* Specific adjustment for container max-width on smaller screens, if needed */
+@media (max-width: 900px) { /* Example for a tablet breakpoint */
+    .container {
+        max-width: 100%; /* Make container full width on smaller tablets/large phones */
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
