@@ -16,14 +16,22 @@
     <nav class="navbar">
         <div class="container navbar-content">
             <a href="#" class="navbar-brand">StudyCore</a>
-            <div class="navbar-links">
+            <!-- Links container with a new ID for JS targeting -->
+            <div class="navbar-links" id="navbarLinks">
                 <a href="#">Home</a>
                 <a href="#features">Features</a>
                 <a href="#about">About Us</a>
-                <a href="#footer">Contact</a> <!-- Changed to #footer -->
+                <a href="#footer">Contact</a>
                 <a href="Login/login.php" class="btn btn-secondary">Login</a>
                 <a href="Login/register.php" class="btn btn-primary">Register</a>
+            </div>
+             <!-- Dark Mode Toggle and new Menu Toggle are grouped -->
+            <div class="nav-controls">
                 <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">☀️</button>
+                <!-- **NEW**: Hamburger Menu Button for mobile -->
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger-icon"></span>
+                </button>
             </div>
         </div>
     </nav>
@@ -119,6 +127,7 @@
             </div>
         </div>
     </footer>
-<script src ="JS/darkmode.js"></script>
+<!-- Renamed to script.js to reflect new functionality -->
+<script src ="JS/script.js"></script>
 </body>
 </html>

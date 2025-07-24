@@ -1,0 +1,175 @@
+/* ===============================================
+   StudyCore - Authentication Page Styles
+   Shared styles for Login and Register pages.
+   =============================================== */
+
+/* 1. CSS Variables (Light & Dark) */
+:root {
+    --bg-color: #f8faff;
+    --text-color: #333;
+    --nav-bg: #fff;
+    --nav-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --nav-text: #4b5563;
+    --nav-hover-text: #2563eb;
+    --primary-button-bg: #2563eb;
+    --primary-button-hover-bg: #1d4ed8;
+    --section-bg: #fff;
+    --section-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    --section-heading: #1e40af;
+    --footer-bg: #111827;
+    --footer-heading: #fff;
+    --footer-text: #d1d5db;
+    --footer-link: #9ca3af;
+    --footer-link-hover: #fff;
+    --footer-border-color: #374151;
+    --input-border-color: #ccc;
+    --message-success-bg: #d4edda;
+    --message-success-text: #155724;
+    --message-success-border: #c3e6cb;
+    --message-error-bg: #f8d7da;
+    --message-error-text: #721c24;
+    --message-error-border: #f5c6cb;
+}
+
+body.dark-mode {
+    --bg-color: #111827;
+    --text-color: #d1d5db;
+    --nav-bg: #1f2937;
+    --nav-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --nav-text: #d1d5db;
+    --nav-hover-text: #60a5fa;
+    --primary-button-bg: #3b82f6;
+    --primary-button-hover-bg: #2563eb;
+    --section-bg: #1f2937;
+    --section-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    --section-heading: #60a5fa;
+    --footer-bg: #000;
+    --footer-heading: #e5e7eb;
+    --footer-text: #9ca3af;
+    --footer-link: #6b7280;
+    --footer-link-hover: #e5e7eb;
+    --footer-border-color: #4b5563;
+    --input-border-color: #4b5563;
+    --message-success-bg: #14532d;
+    --message-success-text: #d1fae5;
+    --message-success-border: #166534;
+    --message-error-bg: #7f1d1d;
+    --message-error-text: #fecaca;
+    --message-error-border: #991b1b;
+}
+
+/* 2. Global Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* 3. Navigation Bar */
+.navbar {
+    background-color: var(--nav-bg);
+    box-shadow: var(--nav-shadow);
+    padding: 1rem 0;
+    transition: background-color 0.3s ease;
+}
+.navbar-content { display: flex; justify-content: space-between; align-items: center; }
+.navbar-brand { font-size: 2.25rem; font-weight: 800; color: var(--section-heading); letter-spacing: -0.05em; text-decoration: none; }
+.dark-mode-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--nav-text); transition: color 0.3s ease; line-height: 1; }
+.dark-mode-toggle:hover { color: var(--nav-hover-text); }
+
+
+/* 4. Main Content Area */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.auth-container {
+    background-color: var(--section-bg);
+    padding: 2.5rem 3rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--section-shadow);
+    width: 100%;
+    max-width: 500px;
+    transition: background-color 0.3s ease;
+}
+
+.auth-container h1 {
+    text-align: center;
+    color: var(--section-heading);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* 5. Form Styles */
+.form-group { margin-bottom: 1.25rem; }
+label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-color); }
+input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+.btn {
+    display: block;
+    width: 100%;
+    padding: 0.85rem;
+    background-color: var(--primary-button-bg);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn:hover { background-color: var(--primary-button-hover-bg); }
+.link { text-align: center; margin-top: 1.5rem; }
+.link a { color: var(--primary-button-bg); text-decoration: none; font-weight: 500; }
+body.dark-mode .link a { color: var(--nav-hover-text); }
+.phone-group { display: flex; gap: 0.5rem; }
+.phone-group select { width: 30%; }
+.phone-group input { width: 70%; }
+
+/* 6. Message Styles (for errors/success) */
+.message { padding: 1rem; margin-bottom: 1rem; border-radius: 5px; text-align: center; font-weight: 500; }
+.success-message { background-color: var(--message-success-bg); color: var(--message-success-text); border: 1px solid var(--message-success-border); }
+.error-message { background-color: var(--message-error-bg); color: var(--message-error-text); border: 1px solid var(--message-error-border); }
+.form-error { color: var(--message-error-text); font-size: 0.875rem; margin-top: 0.25rem; }
+
+/* 7. Footer Styles */
+.main-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding-top: 4rem;
+    margin-top: 2rem;
+}
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem; text-align: left; }
+.footer-grid h4 { color: var(--footer-heading); font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+.footer-grid p, .footer-grid ul { list-style: none; padding: 0; margin: 0; }
+.footer-grid ul li { margin-bottom: 0.75rem; }
+.footer-grid ul a { color: var(--footer-link); text-decoration: none; transition: color 0.3s ease; }
+.footer-grid ul a:hover { color: var(--footer-link-hover); }
+.footer-bottom { text-align: center; padding: 1.5rem 0; border-top: 1px solid var(--footer-border-color); font-size: 0.9rem; color: var(--footer-link); }
