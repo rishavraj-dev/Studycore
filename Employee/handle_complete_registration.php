@@ -50,21 +50,19 @@ try {
     $employee_data = $result->fetch_assoc();
     $stmt_fetch->close();
 
-    // 2. **CRITICAL FIX**: Generate a unique username BEFORE the transaction.
+    // 2. Generate a unique username.
     $username_found = false;
     $generated_username = '';
     do {
-        // Generate a username like 'johna1b2'
         $name_parts = explode(' ', $employee_data['full_name']);
         $base_name = strtolower(preg_replace("/[^A-Za-z]/", '', $name_parts[0]));
         $random_suffix = substr(bin2hex(random_bytes(3)), 0, 4);
         $generated_username = $base_name . $random_suffix;
-
         $stmt_check_username = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt_check_username->bind_param("s", $generated_username);
         $stmt_check_username->execute();
         if ($stmt_check_username->get_result()->num_rows === 0) {
-            $username_found = true; // This username is unique and we can use it.
+            $username_found = true;
         }
         $stmt_check_username->close();
     } while (!$username_found);
@@ -76,8 +74,12 @@ try {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $hashed_security_answer = password_hash($security_answer, PASSWORD_DEFAULT);
     
-    // 4. **CRITICAL FIX**: Insert the final user record, NOW INCLUDING the generated username.
-    $stmt_insert = $conn->prepare("INSERT INTO users (username, name, email, password, dob, security_question_id, security_answer, user_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    // 4. **CRITICAL FIX**: Insert the final user record, now including the generated username
+    //    and explicitly setting is_email_verified=1 and is_2fa_enabled=1.
+    $stmt_insert = $conn->prepare(
+        "INSERT INTO users (username, name, email, password, dob, security_question_id, security_answer, user_type, is_email_verified, is_2fa_enabled) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 1)"
+    );
     $stmt_insert->bind_param("sssssiss", $generated_username, $employee_data['full_name'], $employee_data['email'], $hashed_password, $employee_data['dob'], $security_question_id, $hashed_security_answer, $employee_data['role_assigned']);
     $stmt_insert->execute();
     if ($stmt_insert->affected_rows !== 1) {
