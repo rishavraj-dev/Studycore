@@ -36,9 +36,30 @@
             <div id="passwordSection">
                 <h1>Welcome Back!</h1>
                 <div id="loginMessageContainer">
-                    <!-- General success/error messages from redirects will appear here -->
-                    <?php if (isset($_GET['success'])): ?><div class="message success-message"><?php echo htmlspecialchars($_GET['success']); ?></div><?php endif; ?>
-                    <?php if (isset($_GET['error'])): ?><div class="message error-message"><?php echo htmlspecialchars($_GET['error']); ?></div><?php endif; ?>
+                    <!-- =================== THIS IS THE UPDATED BLOCK =================== -->
+                    <?php
+                    // This block now correctly handles redirects from the password reset form.
+                    if (isset($_GET['status'])) {
+                        $message = '';
+                        $message_class = '';
+
+                        // Handle the success case from handle_forgot_password.php
+                        if ($_GET['status'] === 'reset_sent') {
+                            $message = 'If an account with that email exists, a password reset link has been sent.';
+                            $message_class = 'success-message';
+                        
+                        // Handle the failure case from handle_forgot_password.php
+                        } elseif ($_GET['status'] === 'reset_failed' && isset($_GET['msg'])) {
+                            $message = htmlspecialchars($_GET['msg']);
+                            $message_class = 'error-message';
+                        }
+
+                        if ($message) {
+                            echo "<div class=\"message {$message_class}\">{$message}</div>";
+                        }
+                    }
+                    ?>
+                    <!-- ================================================================= -->
                 </div>
 
                 <form id="loginForm">
@@ -51,7 +72,7 @@
                         <input type="password" id="password" name="password" required>
                     </div>
                     <div style="text-align: right; margin-top: -0.75rem; margin-bottom: 1.25rem;">
-                        <a href="forgot_password.php" style="font-size: 0.9rem; color: var(--primary-button-bg); text-decoration: none;">Forgot Password?</a>
+                        <a href="#" id="forgotPasswordTrigger" style="font-size: 0.9rem; color: var(--primary-button-bg); text-decoration: none;">Forgot Password?</a>
                     </div>
                     <button type="submit" id="loginBtn" class="btn">Login</button>
                 </form>
@@ -93,7 +114,24 @@
         </div>
     </footer>
 
-    <!-- This script handles dark mode -->
+    <div id="forgotPasswordModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Your Password</h2>
+                <button id="modalCloseBtn" class="modal-close-btn">×</button>
+            </div>
+            <p style="color: var(--text-light); margin-top: 0; margin-bottom: 1.5rem;">Enter your email address and we will send you a link to reset your password.</p>
+            <form action="handle_forgot_password.php" method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="submit" class="btn">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- This script handles dark mode AND the modal popup logic -->
     <script src="../JS/auth_script.js"></script>
 
     <!-- This new script block handles the entire 2FA flow -->
@@ -189,6 +227,7 @@
                 e.preventDefault();
                 if (resendOtpLink.classList.contains('disabled')) return;
                 
+                // This is a clever way to re-trigger the OTP send by re-submitting the original login form
                 loginForm.dispatchEvent(new Event('submit', { cancelable: true }));
             });
         });

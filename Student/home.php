@@ -1,123 +1,98 @@
 <?php
-// =================================================================
-//  SESSION VALIDATION - THE GUARD FOR ALL PROTECTED PAGES
-// =================================================================
 session_start();
 require_once '../config/db_connect.php';
 
-// 1. Check if user is logged in at all
+// --- Security Guard ---
+// 1. Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ../Login/login.php?error=' . urlencode('You must be logged in to access this page.'));
+    header('Location: ../Login/login.php?error=' . urlencode('You must be logged in to access the dashboard.'));
     exit();
 }
 
-// 2. Check if the session token in the PHP session still exists in the database.
-// This is the crucial check to see if this session has been logged out by another device.
+// 2. Validate the session token against the database for security
+// This prevents session hijacking.
 try {
-    $stmt = $conn->prepare("SELECT session_id FROM active_sessions WHERE user_id = ? AND session_token = ? LIMIT 1");
-    $stmt->bind_param("is", $_SESSION['user_id'], $_SESSION['session_token']);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows === 0) {
-        // The session token is not in the database. Destroy the session and log out.
-        session_unset();
-        session_destroy();
-        header('Location: ../Login/login.php?error=' . urlencode('Your session has expired or you signed in on another device.'));
+    $stmt_session = $conn->prepare("SELECT session_id FROM active_sessions WHERE user_id = ? AND session_token = ?");
+    $stmt_session->bind_param("is", $_SESSION['user_id'], $_SESSION['session_token']);
+    $stmt_session->execute();
+    if ($stmt_session->get_result()->num_rows === 0) {
+        session_unset(); session_destroy();
+        header('Location: ../Login/login.php?error=' . urlencode('Your session is invalid. Please log in again.'));
         exit();
     }
-    $stmt->close();
-} catch (Exception $e) {
-    // Database error
-    session_unset();
-    session_destroy();
-    header('Location: ../Login/login.php?error=' . urlencode('A session validation error occurred.'));
-    exit();
-}
+    $stmt_session->close();
+} catch (Exception $e) { /* Handle DB error */ }
 
-// If we reach this point, the user is authenticated and the session is valid.
-// You can now safely display the page content.
-$username = htmlspecialchars($_SESSION['username']);
+
+// --- Fetch User Data for Display ---
+$user_id = $_SESSION['user_id'];
+$full_name = 'User'; // Default name
+$first_initial = 'U'; // Default initial
+
+try {
+    $stmt_user = $conn->prepare("SELECT name FROM users WHERE id = ?");
+    $stmt_user->bind_param("i", $user_id);
+    $stmt_user->execute();
+    $result = $stmt_user->get_result();
+    if ($user_row = $result->fetch_assoc()) {
+        $full_name = htmlspecialchars($user_row['name']);
+        $first_initial = strtoupper(substr($full_name, 0, 1));
+    }
+    $stmt_user->close();
+} catch (Exception $e) { /* Handle DB error */ }
+
+// Check for unverified email status
+$is_email_verified = $_SESSION['is_email_verified'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - StudyCore</title>
+    <title>Dashboard - StudyCore</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            margin: 0;
-        }
-        .navbar {
-            background-color: #fff;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e40af;
-            text-decoration: none;
-        }
-        .navbar-logout a {
-            background-color: #dc3545;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-        .navbar-logout a:hover {
-            background-color: #c82333;
-        }
-        .container {
-            padding: 2rem;
-            max-width: 1000px;
-            margin: 2rem auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .welcome-message {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #1e40af;
-            margin-bottom: 1rem;
-        }
-        .content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-    </style>
+    <!-- Link to the new dashboard stylesheet -->
+    <link rel="stylesheet" href="../CSS/student_style.css">
 </head>
 <body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <a href="#" class="header-logo">StudyCore</a>
+            
+            <div class="profile-section">
+                <!-- This is the button that opens the dropdown -->
+                <button id="profileButton" class="profile-button">
+                    <div class="profile-avatar"><?php echo $first_initial; ?></div>
+                    <span class="profile-name"><?php echo $full_name; ?></span>
+                </button>
 
-    <nav class="navbar">
-        <a href="#" class="navbar-brand">StudyCore Dashboard</a>
-        <div class="navbar-logout">
-            <a href="../Login/logout.php">Logout</a>
-        </div>
-    </nav>
+                <!-- This is the hidden dropdown menu -->
+                <div id="profileDropdown" class="profile-dropdown">
+                    <a href="dashboard.php">Dashboard</a>
+                    <a href="manage_plan.php">Manage Plan</a>
+                    <a href="profile_settings.php">Profile Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="../Login/logout.php">Logout</a>
+                </div>
+            </div>
+        </header>
 
-    <div class="container">
-        <div class="welcome-message">
-            Welcome, <?php echo $username; ?>!
-        </div>
-        <div class="content">
-            <p>This is your protected student dashboard. Only logged-in users with a valid session can see this page.</p>
-            <p>From here, you will be able to access your study materials, view your test series results, and manage your subscription.</p>
-            <!-- All your future dashboard content will go here -->
-        </div>
+        <main class="main-content">
+            <?php if ($is_email_verified == 0): ?>
+                <div style="background-color: #fef3c7; color: #b45309; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-weight: 500;">
+                    Your email is not verified. Please check your inbox for a verification link or <a href="#">resend the link</a> to access all features.
+                </div>
+            <?php endif; ?>
+            
+            <div class="welcome-card">
+                <h1>Welcome back, <?php echo explode(' ', $full_name)[0]; ?>!</h1>
+                <p>This is your student dashboard. From here you can access your courses, view your progress, and manage your account.</p>
+                <!-- All future dashboard content like course cards, progress bars, etc., will go here. -->
+            </div>
+        </main>
     </div>
 
+    <!-- Link to the new dashboard JavaScript -->
+    <script src="../JS/student_dashboard.js"></script>
 </body>
 </html>
