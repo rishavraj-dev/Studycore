@@ -1,0 +1,106 @@
+/* ===============================================
+   StudyCore - Student Profile & Settings Styles
+   =============================================== */
+
+/* --- 1. THEME VARIABLES (LIGHT & DARK MODE) --- */
+:root {
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --border-color: #e2e8f0;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --success-color: #16a34a;
+    --danger-color: #dc2626;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --text-dark: #e2e8f0;
+    --text-light: #94a3b8;
+    --border-color: #334155;
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+}
+
+/* --- 2. GLOBAL STYLES --- */
+* { box-sizing: border-box; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+/* --- 3. DASHBOARD HEADER & PROFILE DROPDOWN --- */
+.dashboard-container { display: flex; flex-direction: column; min-height: 100vh; }
+.dashboard-header {
+    background-color: var(--bg-card);
+    padding: 1rem 1.5rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky; top: 0; z-index: 1000;
+}
+.header-logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); text-decoration: none; }
+.dark-mode-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+.profile-section { position: relative; }
+.profile-button { display: flex; align-items: center; gap: 0.75rem; background: none; border: none; padding: 0.5rem; border-radius: 8px; cursor: pointer; }
+.profile-button:hover { background-color: var(--bg-main); }
+.profile-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: 600; }
+.profile-name { font-weight: 600; color: var(--text-dark); }
+.profile-dropdown { position: absolute; top: 110%; right: 0; background-color: var(--bg-card); border-radius: 8px; box-shadow: var(--shadow-md); width: 200px; overflow: hidden; z-index: 1001; display: none; animation: fadeIn 0.2s ease-out; }
+.profile-dropdown.active { display: block; }
+.profile-dropdown a { display: block; padding: 0.75rem 1.25rem; color: var(--text-dark); text-decoration: none; }
+.profile-dropdown a:hover { background-color: var(--bg-main); color: var(--primary-color); }
+.dropdown-divider { height: 1px; background-color: var(--border-color); margin: 0.5rem 0; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- 4. MAIN CONTENT & PROFILE CARD --- */
+.main-content { padding: 1.5rem; }
+.profile-card { background-color: var(--bg-card); padding: 2rem; border-radius: 8px; box-shadow: var(--shadow-md); }
+.message { padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
+.message.success { background-color: #dcfce7; color: #166534; }
+.message.error { background-color: #fee2e2; color: #991b1b; }
+
+/* --- 5. TABS --- */
+.tab-nav { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
+.tab-link { padding: 0.75rem 1.25rem; border: none; background: none; cursor: pointer; font-size: 1rem; font-weight: 600; color: var(--text-light); border-bottom: 3px solid transparent; margin-bottom: -1px; }
+.tab-link.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* --- 6. VIEW PROFILE & FORMS --- */
+.profile-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.detail-item { background-color: var(--bg-main); padding: 1rem; border-radius: 6px; }
+.detail-item .label { font-size: 0.9em; color: var(--text-light); }
+.detail-item .value { font-size: 1.1em; font-weight: 500; }
+.status-verified { color: var(--success-color); font-weight: bold; }
+.status-unverified { color: var(--danger-color); font-weight: bold; }
+
+.form-group { margin-bottom: 1.5rem; max-width: 500px; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
+.form-group input, .form-group select { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--bg-card); color: var(--text-dark); }
+.form-group input[readonly] { background-color: var(--bg-main); cursor: not-allowed; opacity: 0.7; }
+.btn-save { background-color: var(--primary-color); color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 6px; font-weight: 500; cursor: pointer; }
+.btn-save:hover { background-color: var(--primary-hover); }
+
+/* --- 7. RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    .dashboard-header { padding: 1rem; }
+    .main-content { padding: 1rem; }
+    .profile-card { padding: 1.5rem; }
+    .tab-nav { flex-direction: column; }
+    .tab-link { width: 100%; text-align: left; border-bottom: 1px solid var(--border-color); }
+}

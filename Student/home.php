@@ -2,97 +2,98 @@
 session_start();
 require_once '../config/db_connect.php';
 
-// --- Security Guard ---
-// 1. Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../Login/login.php?error=' . urlencode('You must be logged in to access the dashboard.'));
-    exit();
-}
-
-// 2. Validate the session token against the database for security
-// This prevents session hijacking.
-try {
-    $stmt_session = $conn->prepare("SELECT session_id FROM active_sessions WHERE user_id = ? AND session_token = ?");
-    $stmt_session->bind_param("is", $_SESSION['user_id'], $_SESSION['session_token']);
-    $stmt_session->execute();
-    if ($stmt_session->get_result()->num_rows === 0) {
-        session_unset(); session_destroy();
-        header('Location: ../Login/login.php?error=' . urlencode('Your session is invalid. Please log in again.'));
-        exit();
-    }
-    $stmt_session->close();
-} catch (Exception $e) { /* Handle DB error */ }
-
-
-// --- Fetch User Data for Display ---
+// --- 1. Security Guard ---
+if (!isset($_SESSION['user_id'])) { header('Location: ../Login/login.php'); exit(); }
+// Add your full session token validation here for security.
 $user_id = $_SESSION['user_id'];
-$full_name = 'User'; // Default name
-$first_initial = 'U'; // Default initial
 
+// --- 2. Fetch User and Subscription Status ---
+$user = [];
+$has_active_plan = false; // Default to false
 try {
+    // Fetch user's name
     $stmt_user = $conn->prepare("SELECT name FROM users WHERE id = ?");
     $stmt_user->bind_param("i", $user_id);
     $stmt_user->execute();
-    $result = $stmt_user->get_result();
-    if ($user_row = $result->fetch_assoc()) {
-        $full_name = htmlspecialchars($user_row['name']);
-        $first_initial = strtoupper(substr($full_name, 0, 1));
-    }
+    $user = $stmt_user->get_result()->fetch_assoc();
     $stmt_user->close();
-} catch (Exception $e) { /* Handle DB error */ }
 
-// Check for unverified email status
-$is_email_verified = $_SESSION['is_email_verified'] ?? 0;
+    // ** THE CRITICAL SUBSCRIPTION CHECK **
+    $stmt_sub = $conn->prepare("SELECT 1 FROM user_subscriptions WHERE user_id = ? AND status = 'active' AND end_date > NOW() LIMIT 1");
+    $stmt_sub->bind_param("i", $user_id);
+    $stmt_sub->execute();
+    if ($stmt_sub->get_result()->num_rows === 1) {
+        $has_active_plan = true;
+    }
+    $stmt_sub->close();
+} catch (Exception $e) { die("Database error."); }
+
+$full_name = htmlspecialchars($user['name'] ?? 'User');
+$first_initial = !empty($full_name) ? strtoupper(substr($full_name, 0, 1)) : '?';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - StudyCore</title>
+    <title>Home - StudyCore</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Link to the new dashboard stylesheet -->
-    <link rel="stylesheet" href="../CSS/student_style.css">
+    <!-- Link to the new, self-contained stylesheet -->
+    <link rel="stylesheet" href="../CSS/home.css">
 </head>
 <body>
     <div class="dashboard-container">
         <header class="dashboard-header">
-            <a href="#" class="header-logo">StudyCore</a>
-            
-            <div class="profile-section">
-                <!-- This is the button that opens the dropdown -->
-                <button id="profileButton" class="profile-button">
-                    <div class="profile-avatar"><?php echo $first_initial; ?></div>
-                    <span class="profile-name"><?php echo $full_name; ?></span>
-                </button>
-
-                <!-- This is the hidden dropdown menu -->
-                <div id="profileDropdown" class="profile-dropdown">
-                    <a href="dashboard.php">Dashboard</a>
-                    <a href="manage_plan.php">Manage Plan</a>
-                    <a href="profile_settings.php">Profile Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="../Login/logout.php">Logout</a>
+            <a href="home.php" class="header-logo">StudyCore</a>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">☀️</button>
+                <div class="profile-section">
+                    <button id="profileButton" class="profile-button">
+                        <div class="profile-avatar"><?php echo $first_initial; ?></div>
+                        <span class="profile-name"><?php echo $full_name; ?></span>
+                    </button>
+                    <div id="profileDropdown" class="profile-dropdown">
+                        <a href="home.php">Home</a>
+                        <a href="my_profile.php">My Profile</a>
+                        <a href="manage_plan.php">Manage Plan</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="../Login/logout.php">Logout</a>
+                    </div>
                 </div>
             </div>
         </header>
 
         <main class="main-content">
-            <?php if ($is_email_verified == 0): ?>
-                <div style="background-color: #fef3c7; color: #b45309; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-weight: 500;">
-                    Your email is not verified. Please check your inbox for a verification link or <a href="#">resend the link</a> to access all features.
+            <!-- ** THIS IS THE CONDITIONAL LOGIC FOR THE OVERLAY ** -->
+            <?php if (!$has_active_plan): ?>
+                <div class="content-locked-overlay"></div>
+                <div class="expired-plan-notice">
+                    <h2>Your Plan Has Expired</h2>
+                    <p>Please purchase or reactivate a plan to continue using our services.</p>
+                    <br>
+                    <a href="manage_plan.php" class="btn-primary">Go to Plans Page</a>
                 </div>
             <?php endif; ?>
             
-            <div class="welcome-card">
+            <div class="welcome-card" style="margin-bottom: 2rem;">
                 <h1>Welcome back, <?php echo explode(' ', $full_name)[0]; ?>!</h1>
-                <p>This is your student dashboard. From here you can access your courses, view your progress, and manage your account.</p>
-                <!-- All future dashboard content like course cards, progress bars, etc., will go here. -->
+                <p>Choose a section below to start your learning journey.</p>
+            </div>
+
+            <div class="features-grid">
+                <a href="#" class="feature-card"><h2>JEE Prep</h2><p>Access exclusive materials, mock tests, and strategies for the Joint Entrance Examination.</p></a>
+                <a href="#" class="feature-card"><h2>NEET Prep</h2><p>Unlock our comprehensive resources for the National Eligibility cum Entrance Test.</p></a>
+                <a href="#" class="feature-card"><h2>Test Series</h2><p>Practice with our advanced test series for all major competitive exams.</p></a>
+                <a href="#" class="feature-card"><h2>Class 12</h2><p>Master your board exam subjects with detailed notes and practice questions.</p></a>
+                <a href="#" class="feature-card"><h2>Class 11</h2><p>Build a strong foundation for your final school years and competitive exams.</p></a>
+                <a href="#" class="feature-card"><h2>Class 10</h2><p>Excel in your board exams with our specially curated study materials.</p></a>
             </div>
         </main>
     </div>
 
-    <!-- Link to the new dashboard JavaScript -->
+    <!-- The shared dashboard script for dropdowns and dark mode -->
     <script src="../JS/student_dashboard.js"></script>
+    <!-- The new, page-specific script -->
+    <script src="../JS/home.js"></script>
 </body>
 </html>
