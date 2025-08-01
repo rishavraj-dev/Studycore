@@ -1,0 +1,228 @@
+/* ===============================================
+   StudyCore - Course "Table of Contents" Page Styles
+   (Self-Contained & Complete)
+   =============================================== */
+
+/* --- 1. THEME VARIABLES (LIGHT & DARK MODE) --- */
+:root {
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --border-color: #e2e8f0;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --danger-color: #dc2626;
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+}
+
+body.dark-mode {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --text-dark: #e2e8f0;
+    --text-light: #94a3b8;
+    --border-color: #334155;
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+}
+
+/* --- 2. GLOBAL STYLES & LAYOUT --- */
+* { box-sizing: border-box; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+.dashboard-container {
+    min-height: 100vh;
+}
+.main-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+/* --- 3. HEADER & PROFILE DROPDOWN --- */
+.dashboard-header {
+    background-color: var(--bg-card);
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.header-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.dark-mode-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+.profile-section {
+    position: relative;
+}
+.profile-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.profile-button:hover {
+    background-color: var(--bg-main);
+}
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.profile-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    width: 220px;
+    z-index: 1001;
+    display: none;
+    animation: fadeInDropdown 0.2s ease-out;
+}
+.profile-dropdown.active { display: block; }
+@keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.profile-dropdown a { display: block; padding: 0.75rem 1.25rem; color: var(--text-dark); text-decoration: none; font-size: 0.95rem; }
+.profile-dropdown a:hover { background-color: var(--bg-main); }
+.dropdown-divider { height: 1px; background-color: var(--border-color); margin: 0.5rem 0; }
+
+/* --- 4. COURSE PAGE SPECIFIC STYLES --- */
+.page-header {
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+}
+.page-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--primary-color);
+}
+.page-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+.content-card {
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+}
+.tab-nav {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1.5rem;
+    flex-wrap: wrap;
+}
+.tab-link {
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px; /* Overlap the main border */
+    transition: color 0.2s, border-color 0.2s;
+}
+.tab-link.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+    animation: fadeInContent 0.4s ease;
+}
+@keyframes fadeInContent { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- 5. CHAPTER LIST & SEARCH BAR --- */
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.search-bar {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 320px;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+}
+.chapter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.chapter-list li a {
+    display: block;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s, padding-left 0.2s;
+}
+.chapter-list li:last-child a {
+    border-bottom: none;
+}
+.chapter-list li a:hover {
+    background-color: var(--primary-color);
+    color: white;
+    padding-left: 2rem;
+}
+
+/* --- 6. RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    .dashboard-header, .main-content { padding: 1rem; }
+    .page-header { padding: 1.5rem; }
+    .page-header h1 { font-size: 2rem; }
+    .profile-name { display: none; }
+    .table-toolbar { flex-direction: column; align-items: stretch; }
+    .search-bar { max-width: none; }
+}

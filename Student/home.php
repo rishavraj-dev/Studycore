@@ -80,14 +80,15 @@ $first_initial = !empty($full_name) ? strtoupper(substr($full_name, 0, 1)) : '?'
                 <p>Choose a section below to start your learning journey.</p>
             </div>
 
-            <div class="features-grid">
-                <a href="#" class="feature-card"><h2>JEE Prep</h2><p>Access exclusive materials, mock tests, and strategies for the Joint Entrance Examination.</p></a>
-                <a href="#" class="feature-card"><h2>NEET Prep</h2><p>Unlock our comprehensive resources for the National Eligibility cum Entrance Test.</p></a>
-                <a href="#" class="feature-card"><h2>Test Series</h2><p>Practice with our advanced test series for all major competitive exams.</p></a>
-                <a href="#" class="feature-card"><h2>Class 12</h2><p>Master your board exam subjects with detailed notes and practice questions.</p></a>
-                <a href="#" class="feature-card"><h2>Class 11</h2><p>Build a strong foundation for your final school years and competitive exams.</p></a>
-                <a href="#" class="feature-card"><h2>Class 10</h2><p>Excel in your board exams with our specially curated study materials.</p></a>
-            </div>
+            <!-- New, Functional Links -->
+<div class="features-grid">
+    <a href="course.php?view=jee" class="feature-card"><h2>JEE Prep</h2><p>Access exclusive materials, mock tests, and strategies for the Joint Entrance Examination.</p></a>
+    <a href="course.php?view=neet" class="feature-card"><h2>NEET Prep</h2><p>Unlock our comprehensive resources for the National Eligibility cum Entrance Test.</p></a>
+    <a href="test_series.php" class="feature-card"><h2>Test Series</h2><p>Practice with our advanced test series for all major competitive exams.</p></a>
+    <a href="course.php?view=class_12" class="feature-card"><h2>Class 12</h2><p>Master your board exam subjects with detailed notes and practice questions.</p></a>
+    <a href="course.php?view=class_11" class="feature-card"><h2>Class 11</h2><p>Build a strong foundation for your final school years and competitive exams.</p></a>
+    <a href="course.php?view=class_10" class="feature-card"><h2>Class 10</h2><p>Excel in your board exams with our specially curated study materials.</p></a>
+</div>
         </main>
     </div>
 
