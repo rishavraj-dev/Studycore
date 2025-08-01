@@ -1,15 +1,13 @@
 <?php
-// =================================================================
-//  SESSION VALIDATION - MASTER ADMIN GUARD
-// =================================================================
 session_start();
-// This guard remains the same, ensuring only a master admin can see this hub.
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'master_admin') {
-    session_unset(); session_destroy();
+require_once '../config/db_connect.php';
+
+// Security Guard: Check for Admin or Master Admin role
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['user_type'], ['admin', 'master_admin'])) {
     header('Location: ../Login/login.php?error=' . urlencode('Access Denied.'));
     exit();
 }
-// You should also have session token validation here.
+// Full session token validation would also go here for maximum security
 
 $username = htmlspecialchars($_SESSION['username']);
 ?>
@@ -18,69 +16,92 @@ $username = htmlspecialchars($_SESSION['username']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Admin Dashboard - StudyCore</title>
+    <title>Admin Dashboard - StudyCore</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: #333; margin: 0; }
-        .navbar { background-color: #fff; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; color: #1e40af; text-decoration: none; }
-        .navbar-logout a { background-color: #dc3545; color: #fff; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-weight: 500; }
-        .container { padding: 2rem; max-width: 1200px; margin: 2rem auto; }
-        .header { margin-bottom: 2rem; }
-        .header h1 { color: #1e40af; margin: 0; }
-        .header p { font-size: 1.2rem; color: #555; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-        .feature-card {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-        .feature-card h2 { margin-top: 0; color: #2563eb; }
-        .feature-card p { color: #4b5563; line-height: 1.6; }
-    </style>
+    <!-- This page now correctly uses the dedicated admin stylesheet -->
+    <link rel="stylesheet" href="../CSS/admin_style.css">
 </head>
 <body>
     <nav class="navbar">
-        <a href="dashboard.php" class="navbar-brand">StudyCore Master Panel</a>
-        <div class="navbar-logout">
-            <a href="../Login/logout.php">Logout</a>
+        <a href="dashboard.php" class="navbar-brand">StudyCore Admin</a>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">☀️</button>
+            <a href="../Login/logout.php" class="btn-logout" style="color: white; text-decoration: none; background-color: var(--danger-color); padding: 0.5rem 1rem; border-radius: 6px;">Logout</a>
         </div>
     </nav>
+
     <div class="container">
         <div class="header">
             <h1>Welcome, <?php echo $username; ?>!</h1>
-            <p>Select a management panel to continue.</p>
+            <p style="color: var(--text-light); font-size: 1.1rem;">Select a management panel to continue.</p>
         </div>
 
-        <div class="features-grid">
-            <a href="employee_management.php" class="feature-card">
-                <h2>Employee Management</h2>
-                <p>Add new privileged users (Admins, Educators, Support) and manage pending invitations.</p>
+        <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            
+            <!-- Card 1: Employee Management -->
+            <a href="employee_management.php" class="feature-card" style="text-decoration: none; color: inherit;">
+                <div class="content-card" style="padding: 2rem; transition: transform 0.2s, box-shadow 0.2s;">
+                    <h2 style="margin-top: 0; color: var(--primary-color);">Employee Management</h2>
+                    <p style="color: var(--text-light); line-height: 1.6;">Add new privileged users (Admins, Educators, Support) and manage pending invitations.</p>
+                </div>
             </a>
             
-            <a href="#" class="feature-card">
-                <h2>User Management</h2>
-                <p>View, search, and manage all registered student accounts on the platform.</p>
+            <!-- Card 2: Content Management (Links to the page we will build next) -->
+            <a href="content_management.php" class="feature-card" style="text-decoration: none; color: inherit;">
+                <div class="content-card" style="padding: 2rem; transition: transform 0.2s, box-shadow 0.2s;">
+                    <h2 style="margin-top: 0; color: var(--primary-color);">Content Management</h2>
+                    <p style="color: var(--text-light); line-height: 1.6;">Manage courses, subjects, chapters, and all educational content like PDFs and videos.</p>
+                </div>
             </a>
 
-            <a href="#" class="feature-card">
-                <h2>Plan Management</h2>
-                <p>Create, edit, and manage subscription plans available to users.</p>
+            <!-- Card 3: Plan Management (Placeholder for the future) -->
+            <a href="#" class="feature-card" style="text-decoration: none; color: inherit;">
+                <div class="content-card" style="padding: 2rem; transition: transform 0.2s, box-shadow 0.2s;">
+                    <h2 style="margin-top: 0; color: var(--primary-color);">Plan Management</h2>
+                    <p style="color: var(--text-light); line-height: 1.6;">Create, edit, and manage subscription plans available to students.</p>
+                </div>
             </a>
             
-            <a href="#" class="feature-card">
-                <h2>Site Analytics</h2>
-                <p>View registration statistics, user activity, and other key site metrics.</p>
+            <!-- Card 4: User Management (Placeholder for the future) -->
+            <a href="#" class="feature-card" style="text-decoration: none; color: inherit;">
+                <div class="content-card" style="padding: 2rem; transition: transform 0.2s, box-shadow 0.2s;">
+                    <h2 style="margin-top: 0; color: var(--primary-color);">Student Management</h2>
+                    <p style="color: var(--text-light); line-height: 1.6;">View, search, and manage all registered student accounts on the platform.</p>
+                </div>
             </a>
+
         </div>
     </div>
+
+    <script>
+        // --- Dark Mode Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('darkModeToggle');
+            if (toggleButton) {
+                const applyTheme = (theme) => {
+                    document.body.classList.toggle('dark-mode', theme === 'dark');
+                    toggleButton.textContent = theme === 'dark' ? '🌙' : '☀️';
+                };
+                const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                applyTheme(savedTheme);
+                toggleButton.addEventListener('click', () => {
+                    const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                    localStorage.setItem('theme', newTheme);
+                    applyTheme(newTheme);
+                });
+            }
+            // Add hover effect to cards
+            document.querySelectorAll('.feature-card .content-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                    card.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'none';
+                    card.style.boxShadow = 'var(--shadow-md)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
