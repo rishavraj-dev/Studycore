@@ -3,9 +3,27 @@ session_start();
 require_once '../config/db_connect.php';
 
 // --- 1. Security Guard ---
-if (!isset($_SESSION['user_id'])) { header('Location: ../Login/login.php'); exit(); }
-// Add your full session token validation here for security.
-$user_id = $_SESSION['user_id'];
+if (!isset($_SESSION['user_id'])) { 
+    header('Location: ../Login/login.php'); 
+    exit(); 
+}
+
+// Redirect administrative and staff roles to their respective dashboards
+if (isset($_SESSION['user_type'])) {
+    if ($_SESSION['user_type'] === 'master_admin') {
+        header('Location: ../MasterAdmin/dashboard.php');
+        exit();
+    } elseif ($_SESSION['user_type'] === 'admin') {
+        header('Location: ../Admin/dashboard.php');
+        exit();
+    } elseif ($_SESSION['user_type'] === 'educator') {
+        header('Location: ../Educator/dashboard.php');
+        exit();
+    } elseif ($_SESSION['user_type'] === 'support') {
+        header('Location: ../Support/dashboard.php');
+        exit();
+    }
+}
 
 // --- 2. Fetch User and Subscription Status ---
 $user = [];

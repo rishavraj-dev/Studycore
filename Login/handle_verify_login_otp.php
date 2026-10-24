@@ -84,10 +84,22 @@ try {
     // Determine the correct redirect URL based on user role
     $redirect_url = '../Student/home.php'; // Default redirect
     switch ($user['user_type']) {
-        case 'master_admin': $redirect_url = '../MasterAdmin/dashboard.php'; break;
-        case 'admin': $redirect_url = '../Admin/dashboard.php'; break;
-        case 'educator': $redirect_url = '../Educator/dashboard.php'; break;
-        case 'support': $redirect_url = '../Support/dashboard.php'; break;
+        case 'master_admin':
+            $redirect_url = '../MasterAdmin/dashboard.php';
+            break;
+        case 'admin':
+            $redirect_url = '../Admin/dashboard.php';
+            break;
+        case 'educator':
+            $redirect_url = '../Educator/dashboard.php';
+            break;
+        case 'support':
+            $redirect_url = '../Support/dashboard.php';
+            break;
+        case 'student':
+        default:
+            $redirect_url = '../Student/home.php';
+            break;
     }
 
     // Tell the front-end JavaScript to redirect the user

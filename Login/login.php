@@ -1,3 +1,26 @@
+<?php
+session_start();
+// Auto-redirect if already logged in
+if (isset($_SESSION['user_id'], $_SESSION['user_type'])) {
+    switch ($_SESSION['user_type']) {
+        case 'master_admin':
+            header('Location: ../MasterAdmin/dashboard.php');
+            exit();
+        case 'admin':
+            header('Location: ../Admin/dashboard.php');
+            exit();
+        case 'educator':
+            header('Location: ../Educator/dashboard.php');
+            exit();
+        case 'support':
+            header('Location: ../Support/dashboard.php');
+            exit();
+        default:
+            header('Location: ../Student/home.php');
+            exit();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,19 +59,18 @@
             <div id="passwordSection">
                 <h1>Welcome Back!</h1>
                 <div id="loginMessageContainer">
-                    <!-- =================== THIS IS THE UPDATED BLOCK =================== -->
                     <?php
-                    // This block now correctly handles redirects from the password reset form.
-                    if (isset($_GET['status'])) {
+                    if (isset($_GET['success'])) {
+                        echo '<div class="message success-message">' . htmlspecialchars($_GET['success']) . '</div>';
+                    } elseif (isset($_GET['error'])) {
+                        echo '<div class="message error-message">' . htmlspecialchars($_GET['error']) . '</div>';
+                    } elseif (isset($_GET['status'])) {
                         $message = '';
                         $message_class = '';
 
-                        // Handle the success case from handle_forgot_password.php
                         if ($_GET['status'] === 'reset_sent') {
                             $message = 'If an account with that email exists, a password reset link has been sent.';
                             $message_class = 'success-message';
-                        
-                        // Handle the failure case from handle_forgot_password.php
                         } elseif ($_GET['status'] === 'reset_failed' && isset($_GET['msg'])) {
                             $message = htmlspecialchars($_GET['msg']);
                             $message_class = 'error-message';
@@ -59,7 +81,6 @@
                         }
                     }
                     ?>
-                    <!-- ================================================================= -->
                 </div>
 
                 <form id="loginForm">
@@ -108,7 +129,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div><h4>StudyCore</h4><p>Your partner in achieving academic excellence.</p></div>
-                <div><h4>Legal</h4><ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+                <div><h4>Legal</h4><ul><li><a href="../help/termsofservice.html">Terms of Service</a></li><li><a href="../help/privacypolicy.html">Privacy Policy</a></li></ul></div>
             </div>
             <div class="footer-bottom"><p>© <?php echo date("Y"); ?> StudyCore. All Rights Reserved.</p></div>
         </div>

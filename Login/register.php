@@ -1,5 +1,25 @@
 <?php
-// This PHP block is identical to yours, fetching security questions.
+session_start();
+// Auto-redirect if already logged in
+if (isset($_SESSION['user_id'], $_SESSION['user_type'])) {
+    switch ($_SESSION['user_type']) {
+        case 'master_admin':
+            header('Location: ../MasterAdmin/dashboard.php');
+            exit();
+        case 'admin':
+            header('Location: ../Admin/dashboard.php');
+            exit();
+        case 'educator':
+            header('Location: ../Educator/dashboard.php');
+            exit();
+        case 'support':
+            header('Location: ../Support/dashboard.php');
+            exit();
+        default:
+            header('Location: ../Student/home.php');
+            exit();
+    }
+}
 require_once '../config/db_connect.php';
 try {
     $stmt = $conn->query("SELECT id, question_text FROM security_questions ORDER BY id");
@@ -97,13 +117,24 @@ $conn->close();
                 
                 <!-- The register button is now disabled by default -->
                 <button type="submit" id="registerBtn" class="btn" disabled>Register</button>
+                <p style="font-size: 0.85rem; color: var(--text-color); opacity: 0.8; margin-top: 1rem; text-align: center;">
+                    By registering, you agree to our <a href="../help/termsofservice.html" target="_blank" style="color: var(--primary-button-bg); text-decoration: none; font-weight: 500;">Terms of Service</a> and <a href="../help/privacypolicy.html" target="_blank" style="color: var(--primary-button-bg); text-decoration: none; font-weight: 500;">Privacy Policy</a>.
+                </p>
             </form>
 
             <div class="link"><p>Already have an account? <a href="login.php">Login here</a></p></div>
         </div>
     </main>
 
-    <footer class="main-footer"><!-- Your Full Footer HTML --><div class="container"><div class="footer-bottom"><p>© <?php echo date("Y"); ?> StudyCore. All Rights Reserved.</p></div></div></footer>
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div><h4>StudyCore</h4><p>Your partner in achieving academic excellence.</p></div>
+                <div><h4>Legal</h4><ul><li><a href="../help/termsofservice.html">Terms of Service</a></li><li><a href="../help/privacypolicy.html">Privacy Policy</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>© <?php echo date("Y"); ?> StudyCore. All Rights Reserved.</p></div>
+        </div>
+    </footer>
     <script src="../JS/auth_script.js"></script>
 
     <!-- ** NEW **: Combined and upgraded validation script -->

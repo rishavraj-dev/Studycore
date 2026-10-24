@@ -116,7 +116,26 @@ try {
         $_SESSION['is_email_verified'] = $user['is_email_verified'];
         $_SESSION['session_token'] = $session_token;
         
-        $redirect_url = '../Student/home.php';
+        $redirect_url = '../Student/home.php'; // Default redirect
+        switch ($user['user_type']) {
+            case 'master_admin':
+                $redirect_url = '../MasterAdmin/dashboard.php';
+                break;
+            case 'admin':
+                $redirect_url = '../Admin/dashboard.php';
+                break;
+            case 'educator':
+                $redirect_url = '../Educator/dashboard.php';
+                break;
+            case 'support':
+                $redirect_url = '../Support/dashboard.php';
+                break;
+            case 'student':
+            default:
+                $redirect_url = '../Student/home.php';
+                break;
+        }
+
         echo json_encode(['status' => 'success', 'redirect_url' => $redirect_url]);
         exit();
     }
